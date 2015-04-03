@@ -1,0 +1,2 @@
+cd src
+javac -d /home/ubuntu/libjam-mt-src/java/bin com/asdev/libjam/mt/TouchHandler.java
