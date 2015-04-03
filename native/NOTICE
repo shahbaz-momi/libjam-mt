@@ -1,0 +1,1 @@
+NOTICE: in the script assemble, replace -I/opt/jdk/include with /path/to/jdk/include and -I/opt/jdk/include/linux to -I/path/to/jdk/include/linux
