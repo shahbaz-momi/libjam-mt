@@ -39,6 +39,7 @@ This is easy. `cd` into a directory you like and run `git clone https://github.c
 NOTE: If if doesn't work there maybe several reasons:
 
 - The library export path is set to `/t3/lib/`, and you can change this in the `./native/build` script. Do the same in the script `./run` where the `-Djava.library.path` is set to `/t3/lib/`.
+- You will need to change the jdk include paths. In the script assemble, replace -I/opt/jdk/include with /path/to/jdk/include and -I/opt/jdk/include/linux to -I/path/to/jdk/include/linux
 - In the `./run` script there is a line which calls `export LD_PRELOAD`. This sets the library locations relative to my system and must be change to the locations of where the same libraries reside on your system.
 - You may need a reboot.
 - You must run as `root` because the C lib needs access to `/dev/input/eventX`
