@@ -56,7 +56,7 @@ public class TouchHandler {
 			}
 		});
 		
-		start(4);
+		start(4 /* replace with your event device number */ );
 		
 		while(true)
 			Thread.sleep(50);
@@ -69,10 +69,15 @@ public class TouchHandler {
 	
 	public static void onUpdate(double x, double y, int id){
 		//update hashmap
-		syncTTPut(id % 10, System.nanoTime());
+		int corrId = id % 10;
+		if(syncTTGet(corrId) == -1)
+			for(OnTouchListener o: getListeners())
+				o.onTouch(x, y, corrId);
+		
+		syncTTPut(corrId, System.nanoTime());
 		
 		for(OnTouchListener o : getListeners())
-			o.onUpdate(x, y, id);
+			o.onUpdate(x, y, corrId);
 	}
 	
 	protected static synchronized void syncTTPut(int k, long v) {
