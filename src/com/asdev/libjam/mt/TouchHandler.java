@@ -1,7 +1,7 @@
 package com.asdev.libjam.mt;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
 *	TouchHandler class by Asdev. Call start(devNum) to start listening.
@@ -116,7 +116,7 @@ public class TouchHandler {
 
 	public native void init(int devNum);
 
-	protected static HashMap<Integer, Long> touchTimes = new HashMap<>(10);
+	protected static ConcurrentHashMap<Integer, Long> touchTimes = new ConcurrentHashMap<>(10);
 	private static Object ttLock = new Object();
 	
 	/**
@@ -141,16 +141,12 @@ public class TouchHandler {
 			o.onUpdate(x, y, corrId);
 	}
 	
-	protected static synchronized void syncTTPut(int k, long v) {
-		synchronized (ttLock) {
-			touchTimes.put(k, v);
-		}
+	protected static void syncTTPut(int k, long v) {
+		touchTimes.put(k, v);
 	}
 	
-	protected static synchronized long syncTTGet(int k) {
-		synchronized (ttLock) {
-			return touchTimes.get(k);
-		}
+	protected static long syncTTGet(int k) {
+		return touchTimes.get(k);
 	}
 
 }
