@@ -43,7 +43,7 @@ NOTE: If if doesn't work there maybe several reasons:
 - In the `./run` script there is a line which calls `export LD_PRELOAD`. This sets the library locations relative to my system and must be change to the locations of where the same libraries reside on your system.
 - You may need a reboot.
 - You must run as `root` because the C lib needs access to `/dev/input/eventX`
-- You may need to change the `/dev/input/eventX` number. You can change this in ./src/com/asdev/libjam/mt/TouchHandler.java in the main method. The line `start(4)` should be replaced with `start(event_device_number)`
+- You may need to change the `/dev/input/eventX` number. You can change this in ./run. In the line `java -D...` the last parameter should be replaced with your event device number
 
 NOTE: the `export LD_PRELOAD` is required when running because the C lib can't find them. You should run this line before you start the actual Java application.
 
