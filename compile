@@ -1,6 +1,6 @@
 cd src
-javac -d bin/ com/asdev/libjam/mt/TouchHandler.java
+mkdir bin
+javac -d ./bin com/asdev/libjam/mt/TouchHandler.java
 cd ..
 rm -r bin
-cp -r src/bin bin
-rm -r src/bin
+mv -r src/bin bin
