@@ -108,7 +108,7 @@ public class TouchHandler {
 			}
 		});
 		
-		start(4 /* replace with your event device number */ );
+		start(Integer.parseInt(args[0] /* replace with your event device number */ );
 		
 		while(true)
 			Thread.sleep(50); //keeps thread alive. Use CTRL-C to kill the program
