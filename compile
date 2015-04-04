@@ -3,4 +3,5 @@ mkdir bin
 javac -d ./bin com/asdev/libjam/mt/TouchHandler.java
 cd ..
 rm -r bin
-mv -r src/bin bin
+cp -r src/bin bin
+rm -r src/bin
