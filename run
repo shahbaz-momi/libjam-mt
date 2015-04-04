@@ -1,3 +1,4 @@
 cd bin
+cp native/libjam-mt.so libjam-mt.so
 export LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libutouch-evemu.so:/usr/lib/arm-linux-gnueabihf/libutouch-frame.so:/usr/lib/libmtdev.so
-java -Djava.library.path=/home/ubuntu/libjam-mt-src/java/native/ com.asdev.libjam.mt.TouchHandler
+java -Djava.library.path=. com.asdev.libjam.mt.TouchHandler
