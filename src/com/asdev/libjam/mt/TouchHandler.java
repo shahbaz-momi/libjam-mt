@@ -99,7 +99,7 @@ public class TouchHandler {
 			
 			@Override
 			public void onTouch(double tx, double ty, int tid){
-				System.out.println("Touch ID: " + tid)
+				System.out.println("Touch ID: " + tid);
 			}
 			
 			@Override
