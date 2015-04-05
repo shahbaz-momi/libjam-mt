@@ -362,8 +362,6 @@ int run(int devNum)
 	char argv[18] = "/dev/input/event";
         append(argv, '0' + devNum);
 
-	printf("ARGV: %s", argv);
-
 	id = atoi(argv);
 	ret = run_mtdev(argv);
 
