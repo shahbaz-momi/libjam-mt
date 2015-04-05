@@ -1,7 +1,12 @@
 package com.asdev.libjam.mt;
 
+<<<<<<< HEAD
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+=======
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
+>>>>>>> origin/master
 
 /**
 *	TouchHandler class by Asdev. Call start(devNum) to start listening.
@@ -119,7 +124,12 @@ public class TouchHandler {
 
 	public native void init(int devNum);
 
+<<<<<<< HEAD
 	protected static volatile long[] touchTimes = new long[10];
+=======
+	protected static ConcurrentHashMap<Integer, Long> touchTimes = new ConcurrentHashMap<>(10);
+	private static Object ttLock = new Object();
+>>>>>>> origin/master
 	
 	/**
 	*	Called by the C library whenever an update happens. Updates will only happen if enabled.
@@ -143,6 +153,7 @@ public class TouchHandler {
 			o.onUpdate(x, y, corrId);
 	}
 	
+<<<<<<< HEAD
 	protected static synchronized void syncTTPut(int k, long v) {
 		synchronized (touchTimes) {
 			touchTimes[k] = v;
@@ -155,6 +166,14 @@ public class TouchHandler {
 			return touchTimes[k];
 
 		}
+=======
+	protected static void syncTTPut(int k, long v) {
+		touchTimes.put(k, v);
+	}
+	
+	protected static long syncTTGet(int k) {
+		return touchTimes.get(k);
+>>>>>>> origin/master
 	}
 
 }
