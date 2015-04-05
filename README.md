@@ -11,6 +11,9 @@ It uses libmtdev to emulate kernel input events on the focused windows, which th
 
 ## How to set it up
 
+##### NOTE:
+you will need to run `chmod +x script` on all of the provided scripts in order to run them.
+
 Installation is fairly complicated but can be done fairly easily. The following explain each step in a fair amount of detail.
 
 ##### 1) Add support for multitouch HID devices in your kernel.
