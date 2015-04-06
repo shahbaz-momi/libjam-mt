@@ -126,8 +126,8 @@ public class TouchHandler {
 	*/
 	public static void onUpdate(double x, double y, int id){
 		//make sure it is enabled
-//		if(!enabled)
-//			return;
+		if(!enabled)
+			return;
 
 		int corrId = id % 10;
 		//check if touch was active before, if wasn't call onTouch
