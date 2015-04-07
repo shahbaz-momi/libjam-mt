@@ -31,7 +31,7 @@ If you do not have one of those panels refer to [this website](https://wiki.arch
 
 ##### 3) Install required libraries.
 `libjam-mt` requires a few libraries to function properly so you will need to install them. Run:
-`sudo apt-get install git libmtdev libutouch-frame libutouch-evemu libc`
+`sudo apt-get install git libmtdev libutouch-frame libutouch-evemu libmtdev-dev libutouch-frame-dev libutouch-evemu-dev libc`
 The package names may vary on your system.
 
 ##### 4) Clone this repo
