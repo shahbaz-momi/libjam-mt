@@ -1,2 +1,5 @@
-gcc -shared -fPIC -I. -I/usr/include/ -I/opt/jdk/include -I/opt/jdk/include/linux -lXmu -lX11 -lutouch-evemu -lutouch-frame -lmtdev TouchHandlerImpl.c -o libjam-mt.so -L. -L/usr/lib/arm-linux-gnueabihf/libutouch-evemu.so
+# old non linking command
+# gcc -shared -fPIC -I. -I/usr/include/ -I/opt/jdk/include -I/opt/jdk/include/linux -lXmu -lX11 -lutouch-evemu -lutouch-frame -lmtdev TouchHandlerImpl.c -o libjam-mt.so -L. 
+gcc -c -Wall -fPIC TouchHandlerImpl.c -o libjam-mt.o -I. -I/usr/include/ -I/opt/jdk/include -I/opt/jdk/include/linux
+gcc -shared -o libjam-mt.so libjam-mt.o -Wl,-rpath,/../lib -L/../lib -L. -lXmu -lutouch-evemu -lutouch-frame -lmtdev -lX11
 cp libjam-mt.so /t3/lib/

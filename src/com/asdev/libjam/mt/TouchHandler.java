@@ -58,14 +58,9 @@ public class TouchHandler {
 					new TouchHandler().init(devNum); 
 				}
 			});
-			
+			initThread.setName("TouchHandlerThread");
 			initThread.setDaemon(true);
 			initThread.start();
-			
-			Thread thrd = new Thread(new SmartTouch());
-			thrd.setDaemon(true);
-			System.out.println("STARTING SMT");
-			thrd.start();
 			
 			inited = true;
  
@@ -106,7 +101,7 @@ public class TouchHandler {
 			}
 			
 			@Override
-			public void onRelease(int tid){
+			public void onRelease(double tx, double ty, int tid){
 				System.out.println("On release id: " + tid);
 			}
 		});
@@ -119,42 +114,63 @@ public class TouchHandler {
 
 	public native void init(int devNum);
 
-	protected static volatile long[] touchTimes = new long[10];
+	protected static volatile boolean[] touches = new boolean[10], lastTouches = new boolean[10];
 	
+	private static int lastFrame = -1;
+
 	/**
 	*	Called by the C library whenever an update happens. Updates will only happen if enabled.
 	*/
-	public static void onUpdate(double x, double y, int id){
+	public static void onUpdate(double x, double y, int id, int isTouch, int frame){
 		//make sure it is enabled
 		if(!enabled)
 			return;
 
-		int corrId = id % 10;
+		if(id == -1){
+			// blank frame reported
+			for(int i = 0; i < touches.length; i ++) {
+				if(touches[i])
+					// call on release of speced touch
+					for(OnTouchListener o : listeners)
+						o.onRelease(x, y, i);
+
+				// blank the touch
+				touches[i] = false;
+				lastTouches[i] = false;
+			}
+			// end early
+			return;
+
+		}
+
+		// check current frame
+		if(frame != lastFrame){
+			lastFrame = frame;
+			// read the last frames and report back
+			for(int i = 0; i < touches.length; i ++){
+				if(touches[i] == false && lastTouches[i] == true){
+					// we got a release
+					for(OnTouchListener o : listeners)
+						o.onRelease(x, y, i);
+				}
+			}
+
+			// copy over the touches
+			System.arraycopy( touches, 0, lastTouches, 0, touches.length );
+			// clear the current touches
+			for(int i = 0; i < touches.length; i ++)
+				touches[i] = false;
+		}
+		touches[id] = true;
+
 		//check if touch was active before, if wasn't call onTouch
-		if(syncTTGet(corrId) == 0)
+		if(isTouch == 1)
 			for(OnTouchListener o: listeners)
-				o.onTouch(x, y, corrId);
-		
-		//store touch time to hashmap
-		syncTTPut(corrId, System.nanoTime());
+				o.onTouch(x, y, id);
 		
 		//call update of every listener
  		for(OnTouchListener o : listeners)
-			o.onUpdate(x, y, corrId);
-	}
-	
-	protected static synchronized void syncTTPut(int k, long v) {
-		synchronized (touchTimes) {
-			touchTimes[k] = v;
- 
-		}
-	}
-	
-	protected static synchronized long syncTTGet(int k) {
-		synchronized (touchTimes) {
-			return touchTimes[k];
-
-		}
+			o.onUpdate(x, y, id);
 	}
 
 }

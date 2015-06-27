@@ -20,6 +20,6 @@ public interface OnTouchListener {
 	*	Called whenever the user releases a touch.
 	*	@param tid the id of the touch
 	*/
-	public void onRelease(int tid);
+	public void onRelease(double tx, double ty, int tid);
 	
 }

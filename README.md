@@ -31,7 +31,7 @@ If you do not have one of those panels refer to [this website](https://wiki.arch
 
 ##### 3) Install required libraries.
 `libjam-mt` requires a few libraries to function properly so you will need to install them. Run:
-`sudo apt-get install git libmtdev libutouch-frame libutouch-evemu libmtdev-dev libutouch-frame-dev libutouch-evemu-dev libc`
+`sudo apt-get install git libmtdev-dev libutouch-frame-dev libutouch-evemu-dev libc-dev libxmu-dev`
 The package names may vary on your system.
 
 ##### 4) Clone this repo
@@ -41,14 +41,11 @@ This is easy. `cd` into a directory you like and run `git clone https://github.c
 
 NOTE: If if doesn't work there maybe several reasons:
 
-- The library export path is set to `/t3/lib/`, and you can change this in the `./native/build` script. Do the same in the script `./run` where the `-Djava.library.path` is set to `/t3/lib/`.
+- You need to set the `-Djava.library.path` to the library location
 - You will need to change the jdk include paths. In the script assemble, replace -I/opt/jdk/include with /path/to/jdk/include and -I/opt/jdk/include/linux to -I/path/to/jdk/include/linux
-- In the `./run` script there is a line which calls `export LD_PRELOAD`. This sets the library locations relative to my system and must be change to the locations of where the same libraries reside on your system.
 - You may need a reboot.
 - You must run as `root` because the C lib needs access to `/dev/input/eventX`
 - You may need to change the `/dev/input/eventX` number. You can change this in ./run. In the line `java -D...` the last parameter should be replaced with your event device number
-
-NOTE: the `export LD_PRELOAD` is required when running because the C lib can't find them. You should run this line before you start the actual Java application.
 
 #### What do the scripts do?
 

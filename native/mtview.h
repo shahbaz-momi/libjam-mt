@@ -57,6 +57,8 @@ static inline float max(float a, float b)
 	return b > a ? b : a;
 }
 
+int frame_counter = 0;
+
 static void output_touch(utouch_frame_handle fh, struct windata *w,
 			 const struct utouch_contact *t)
 {
@@ -89,14 +91,15 @@ static void output_touch(utouch_frame_handle fh, struct windata *w,
 	float mx = max(minor * ac, major * as);
 	float my = max(major * ac, minor * as); */
 
-/*	XSetForeground(w->dsp, w->gc, w->color[t->slot]);
-
-	XFillArc(w->dsp, w->win, w->gc, x - mx / 2, y - my / 2,
-		 mx, my, 0, 360 * 64);
-	XFlush(w->dsp); */
 	/* update touchhandler */
-	update(x, y, t->id);
+	if(t->prev->active == 0){
+		update(x, y, t->slot, 1, frame_counter);
+	} else {
+		update(x, y, t->slot, 0, frame_counter);
+	}
 }
+
+int blanked = 0;
 
 static void report_frame(utouch_frame_handle fh,
 			 const struct utouch_frame *frame,
@@ -104,8 +107,24 @@ static void report_frame(utouch_frame_handle fh,
 {
 	int i;
 
-	for (i = 0; i < frame->num_active; i++)
-		output_touch(fh, w, frame->active[i]);
+	if(frame->num_active > 0) {
+		blanked = 0;
+
+		// change the frame counter
+		if(frame_counter == 0)
+			frame_counter = 1;
+		else
+			frame_counter = 0;
+
+		for (i = 0; i < frame->num_active; i++) {
+			output_touch(fh, w, frame->active[i]);
+		}
+	} else if(blanked == 0) {
+		blanked = 1;
+		// do blank frame on touch handler
+		// use -1 as id to spec this is a blank frame
+		update(-1, -1, -1, 0);
+	}
 }
 
 static int init_window(struct windata *w)
